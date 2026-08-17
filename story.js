@@ -17,15 +17,14 @@ const STORY = {
   // ---- 2. namma story epdi start aachu ----
   timelineHeading: "Ellame oru simple chat la tha  dhaane start aachu…",
   timeline: [
-    { label: "First… just oru friend." },
+    { label: "First… just oru class met" },
     { label: "Apram… konjam close friend." },
     { label: "Apram… romba close." },
-    { label: "Apram… Best Friend ah? 😂" },
-    { label: "Ippo… nee romba special. 💙" }
+    { label: "Apram… Best Friend ah? 😂" }
   ],
 
   // ---- 3. namma chats ----
-  chatHeading: "namma chats 💬",
+  chatHeading: "ipadi start annathu ",
   chat: [
     { from: "sent", text: "Unga kitta oru question kekkanum…" },
     { from: "recv", text: "Ahhh sollugaa pahh 😂", reaction: "😂" },
@@ -38,17 +37,14 @@ const STORY = {
     { text: "Aana…", hi: false },
     { text: "Eppo namma ivlo close aanom nu theriyala.", hi: false },
     { text: "Pesitu irundhom…", hi: false },
-    { text: "Sirichitu irundhom…", hi: false },
     { text: "Random ah pesinom…", hi: false },
     { text: "Konjam konjam ah…", hi: false },
     { text: "Nee en best friend aayita. 💙", hi: true }
   ],
 
   // ---- 5 & 6. portrait reveal + message ----
-  portraitEyebrow: "pakuthi 03",
+  portraitEyebrow: "...",
   portrait: [
-    { text: "Unakku theriyuma…", hi: false },
-    { text: "Nee enakku evlo important nu?", hi: true },
     { text: "Nee enna care panra sila vishayangal…", hi: false },
     { text: "…naan veliya sollama irundhaalum notice panniruppen.", hi: true },
     { text: "Honestly…", hi: false },
@@ -63,26 +59,26 @@ const STORY = {
     "Random ah pesinalum kekka time kuduppa.",
     "Sila neram enna vida enna nee nalla purinjippa.",
     "Adhaan nee just oru friend illa…",
-    "Nee en bestie. 💙"
+    "Nee en best friend 💙"
   ],
 
   // ---- 8. memory gallery ----
   galleryHeading: "namma memories…",
   gallerySub: "konjam pazhaya moments 🩵",
   gallery: [
-    { src: "assets/mem1.jpg", caption: "Indha moment nyabagam irukka?" },
-    { src: "assets/mem2.jpg", caption: "Idhu random ah irundhaalum…" },
-    { src: "assets/mem4.jpg", caption: "Enakku idhu oru memory." },
-    { src: "assets/mem6.jpg", caption: "Namma rendu perukkum mattum puriyura moments." },
-    { src: "assets/mem5.jpg", caption: "Idhu kooda oru nalla memory dhaan." },
-    { src: "assets/mem3.jpg", caption: "Konjam chaos, romba love. 😂" }
+    { src: "mem1.jpg", caption: "Indha moment nyabagam irukka?" },
+    { src: "mem2.jpg", caption: "Idhu random ah irundhaalum…" },
+    { src: "mem4.jpg", caption: "Enakku idhu oru memory." },
+    { src: "mem6.jpg", caption: "Namma rendu perukkum mattum puriyura moments." },
+    { src: "mem5.jpg", caption: "Idhu kooda oru nalla memory dhaan." },
+    { src: "mem3.jpg", caption: "Konjam chaos, romba love. 😂" }
   ],
 
   // ---- 9. friend -> best friend transition ----
   bfLead: "Namma start pannadhu…",
   bfWord1: "FRIENDSHIP",
   bfWord2: "BEST FRIENDSHIP",
-  bfSub: "aana ippo… nee en life-la romba special person. 💙",
+  bfSub: "aana ippo… nee en life-la romba special friend. 💙",
 
   // ---- 10. birthday reveal ----
   birthdayHeading: "HAPPY BIRTHDAY DI 💙🎂",
@@ -99,7 +95,6 @@ const STORY = {
     "Actually enna sollanum nu romba yosichen…",
     "Namma friendship epdi ivlo close aachu nu yosicha, exact ah oru reason kooda solla mudiyala.",
     "Just pesinom…",
-    "Sirichom…",
     "Random ah time spend pannom…",
     "Apdiye nee en best friend aayita.",
     "Nee enna care panra vishayam enakku genuinely romba pidikkum.",
@@ -118,7 +113,7 @@ const STORY = {
     { text: "Wait…", hi: false },
     { text: "innum oru surprise irukku. 👀", hi: true },
     { text: "Un friends ellarum unakku oru wish sollirukaanga. 💙", hi: true },
-    { text: "Ellarum send pannina voice wishes ah onna collect panniten.", hi: false }
+    { text: "-_-", hi: false }
   ],
 
   // ---- 13-15. friends' voice notes player (mid-scroll) ----
