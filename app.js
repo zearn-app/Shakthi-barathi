@@ -116,9 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
     p.textContent = text;
     finalLinesEl.appendChild(p);
   });
-  document.getElementById("finalName").textContent = `HAPPY BIRTHDAY, ${STORY.herName} DI ❤️🎂`;
+  document.getElementById("finalName").textContent = `HAPPY BIRTHDAY, ${STORY.herName} DI 💙🎂`;
   document.getElementById("finalNoteEl").textContent = STORY.finalNote;
   document.getElementById("finalTinyEl").textContent = STORY.finalTiny;
+
+  document.getElementById("popupTeaser").textContent = STORY.finalPopup.teaser;
+  document.getElementById("popupLead").textContent = STORY.finalPopup.lead;
+  document.getElementById("popupAfterText").textContent = STORY.finalPopup.afterText;
+  document.getElementById("popupAfterSub").textContent = STORY.finalPopup.afterSub;
+  document.getElementById("popupCloseBtn").textContent = STORY.finalPopup.closeLabel;
 
   /* ---------------- INTRO SEQUENCE ---------------- */
   const introLines = document.getElementById("introLines");
@@ -130,13 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
     p.textContent = text;
     introLines.appendChild(p);
   });
-  const lines = introLines.querySelectorAll(".intro-line");
-  let delay = 400;
-  lines.forEach(line => {
-    setTimeout(() => line.classList.add("show"), delay);
-    delay += 1900;
+  const introLineEls = introLines.querySelectorAll(".intro-line");
+  let introDelay = 400;
+  introLineEls.forEach(line => {
+    setTimeout(() => line.classList.add("show"), introDelay);
+    introDelay += 1900;
   });
-  setTimeout(() => startBtn.classList.add("show"), delay);
+  setTimeout(() => startBtn.classList.add("show"), introDelay);
 
   startBtn.addEventListener("click", () => {
     document.getElementById("timeline").scrollIntoView({ behavior: "smooth" });
@@ -205,84 +211,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fireConfetti() {
     if (reduceMotion) return;
-    const colors = ["#a98bff", "#e8639f", "#f3c26b", "#ffffff"];
+    const colors = ["#60A5FA", "#38BDF8", "#7DD3FC", "#DBEAFE", "#ffffff"];
     const pieces = Array.from({ length: 90 }, () => ({
       x: Math.random() * confettiCanvas.width,
       y: -20 - Math.random() * 200,
       w: 4 + Math.random() * 5,
       h: 6 + Math.random() * 8,
-      vy: 2 + Math.random() * 3,
-      vx: -1.5 + Math.random() * 3,
+      speed: 2 + Math.random() * 3,
+      drift: -1.5 + Math.random() * 3,
       rot: Math.random() * 360,
-      vr: -6 + Math.random() * 12,
+      rotSpeed: -6 + Math.random() * 12,
       color: colors[Math.floor(Math.random() * colors.length)]
     }));
     let frame = 0;
-    function draw() {
+    function tick() {
+      frame++;
       ctxConfetti.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      let stillFalling = false;
       pieces.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+        p.y += p.speed;
+        p.x += p.drift;
+        p.rot += p.rotSpeed;
+        if (p.y < confettiCanvas.height + 20) stillFalling = true;
         ctxConfetti.save();
         ctxConfetti.translate(p.x, p.y);
-        ctxConfetti.rotate(p.rot * Math.PI / 180);
+        ctxConfetti.rotate((p.rot * Math.PI) / 180);
         ctxConfetti.fillStyle = p.color;
         ctxConfetti.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
         ctxConfetti.restore();
       });
-      frame++;
-      if (frame < 220) requestAnimationFrame(draw);
+      if (stillFalling && frame < 420) requestAnimationFrame(tick);
       else ctxConfetti.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
     }
-    draw();
+    tick();
   }
 
+  const birthdaySection = document.getElementById("birthday");
   const birthdayObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        if (!candlesLit) {
-          candlesLit = true;
-          candles.forEach((c, i) => setTimeout(() => c.classList.add("lit"), i * 260));
-        }
-        if (!confettiFired) {
-          confettiFired = true;
-          setTimeout(fireConfetti, 900);
-        }
+      if (entry.isIntersecting && !candlesLit) {
+        candlesLit = true;
+        candles.forEach((c, i) => setTimeout(() => c.classList.add("lit"), i * 220));
+        if (!confettiFired) { confettiFired = true; setTimeout(fireConfetti, 500); }
       }
     });
-  }, { threshold: 0.6 });
-  birthdayObserver.observe(document.getElementById("birthday"));
+  }, { threshold: 0.5 });
+  birthdayObserver.observe(birthdaySection);
 
-  /* ---------------- FRIENDS' VOICE NOTES PLAYER ---------------- */
-  const playerCard = document.getElementById("playerCard");
-  const vnConfig = STORY.voicenotes;
-  const hasAudio = vnConfig.audioSrc && vnConfig.audioSrc !== "YOUR_GITHUB_RAW_AUDIO_URL";
+  /* ---------------- REUSABLE AUDIO PLAYER ---------------- */
+  // Builds a cinematic audio player inside `container` for `audioSrc`.
+  // Returns { audio, play, pause } so callers can hook into lifecycle events.
+  function buildAudioPlayer(container, audioSrc, opts = {}) {
+    if (!audioSrc || audioSrc === "YOUR_GITHUB_RAW_AUDIO_URL") {
+      container.innerHTML = `<p class="player-empty">Friends' voice wishes audio konjam time-la add pannuvom 💙<br><span style="font-size:12px;opacity:.7;">(paste your GitHub raw audio URL in story.js)</span></p>`;
+      return null;
+    }
 
-  if (!hasAudio) {
-    playerCard.innerHTML = `<p class="player-empty">Voice wishes seekku innum add pannala 🎧<br>— <code>story.js</code> la <code>voicenotes.audioSrc</code> field-la un GitHub audio link-a paste pannu.</p>`;
-  } else {
-    playerCard.innerHTML = `
-      <div class="mic-wrap"><div class="mic-glow" id="micGlow"></div><span class="mic-icon">🎙️</span></div>
-      <canvas id="waveform"></canvas>
-      <div class="player-controls">
-        <button id="playPauseBtn" aria-label="play">▶</button>
-        <input type="range" id="seekBar" min="0" max="100" value="0">
+    container.innerHTML = `
+      <div class="mic-wrap">
+        <div class="mic-glow"></div>
+        <span class="mic-icon">🎙️</span>
       </div>
-      <div class="time-row"><span id="curTime">0:00</span><span id="durTime">0:00</span></div>
-      <div class="volume-row"><span>🔉</span><input type="range" id="volumeBar" min="0" max="1" step="0.01" value="0.9"></div>
+      <canvas class="waveform-canvas"></canvas>
+      <div class="player-controls">
+        <button class="play-pause-btn" aria-label="play">▶</button>
+        <input type="range" class="seek-bar" min="0" max="100" value="0">
+      </div>
+      <div class="time-row"><span class="cur-time">0:00</span><span class="dur-time">0:00</span></div>
+      <div class="volume-row"><span>🔉</span><input type="range" class="volume-bar" min="0" max="1" step="0.01" value="0.9"></div>
     `;
 
-    const friendsAudio = new Audio();
-    friendsAudio.crossOrigin = "anonymous";
-    friendsAudio.preload = "metadata";
-    friendsAudio.src = vnConfig.audioSrc;
+    const audio = new Audio();
+    audio.crossOrigin = "anonymous";
+    audio.preload = "metadata";
+    audio.src = audioSrc;
 
-    const playBtn = document.getElementById("playPauseBtn");
-    const seekBar = document.getElementById("seekBar");
-    const curTime = document.getElementById("curTime");
-    const durTime = document.getElementById("durTime");
-    const volumeBar = document.getElementById("volumeBar");
-    const micGlow = document.getElementById("micGlow");
-    const waveform = document.getElementById("waveform");
+    const playBtn = container.querySelector(".play-pause-btn");
+    const seekBar = container.querySelector(".seek-bar");
+    const curTime = container.querySelector(".cur-time");
+    const durTime = container.querySelector(".dur-time");
+    const volumeBar = container.querySelector(".volume-bar");
+    const micGlow = container.querySelector(".mic-glow");
+    const waveform = container.querySelector(".waveform-canvas");
     const wctx = waveform.getContext("2d");
 
     function fmtTime(s) {
@@ -291,32 +301,33 @@ document.addEventListener("DOMContentLoaded", () => {
       return `${m}:${sec.toString().padStart(2, "0")}`;
     }
 
-    friendsAudio.addEventListener("loadedmetadata", () => {
-      durTime.textContent = fmtTime(friendsAudio.duration);
+    audio.addEventListener("loadedmetadata", () => {
+      durTime.textContent = fmtTime(audio.duration);
     });
-    friendsAudio.addEventListener("timeupdate", () => {
+    audio.addEventListener("timeupdate", () => {
       if (!seekBar.dragging) {
-        seekBar.value = (friendsAudio.currentTime / friendsAudio.duration) * 100 || 0;
+        seekBar.value = (audio.currentTime / audio.duration) * 100 || 0;
       }
-      curTime.textContent = fmtTime(friendsAudio.currentTime);
+      curTime.textContent = fmtTime(audio.currentTime);
     });
-    friendsAudio.addEventListener("ended", () => {
+    audio.addEventListener("ended", () => {
       playBtn.textContent = "▶";
-      micGlow.style.boxShadow = "0 0 0 0 rgba(169,139,255,.5)";
+      micGlow.style.boxShadow = "0 0 0 0 rgba(56,189,248,.5)";
       restoreBackgroundMusic();
+      if (opts.onEnded) opts.onEnded();
     });
 
     seekBar.addEventListener("input", () => {
       seekBar.dragging = true;
-      const t = (seekBar.value / 100) * (friendsAudio.duration || 0);
+      const t = (seekBar.value / 100) * (audio.duration || 0);
       curTime.textContent = fmtTime(t);
     });
     seekBar.addEventListener("change", () => {
-      friendsAudio.currentTime = (seekBar.value / 100) * (friendsAudio.duration || 0);
+      audio.currentTime = (seekBar.value / 100) * (audio.duration || 0);
       seekBar.dragging = false;
     });
-    volumeBar.addEventListener("input", () => { friendsAudio.volume = volumeBar.value; });
-    friendsAudio.volume = 0.9;
+    volumeBar.addEventListener("input", () => { audio.volume = volumeBar.value; });
+    audio.volume = 0.9;
 
     // waveform via Web Audio API
     let audioCtx, analyser, source, dataArray, rafId;
@@ -324,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (audioCtx) return;
       try {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        source = audioCtx.createMediaElementSource(friendsAudio);
+        source = audioCtx.createMediaElementSource(audio);
         analyser = audioCtx.createAnalyser();
         analyser.fftSize = 64;
         source.connect(analyser);
@@ -354,32 +365,114 @@ document.addEventListener("DOMContentLoaded", () => {
           const barH = Math.max(3, v * waveform.height);
           const x = i * barWidth;
           const y = (waveform.height - barH) / 2;
-          wctx.fillStyle = `rgba(169,139,255,${0.35 + v * 0.5})`;
+          wctx.fillStyle = `rgba(56,189,248,${0.35 + v * 0.5})`;
           wctx.fillRect(x, y, barWidth * 0.6, barH);
         }
         avg = avg / barCount;
       }
       if (micGlow) {
         const glowSize = 6 + avg * 26;
-        micGlow.style.boxShadow = `0 0 ${glowSize}px ${glowSize / 3}px rgba(169,139,255,${0.35 + avg * 0.4})`;
+        micGlow.style.boxShadow = `0 0 ${glowSize}px ${glowSize / 3}px rgba(56,189,248,${0.35 + avg * 0.4})`;
       }
     }
 
-    playBtn.addEventListener("click", () => {
+    function doPlay() {
       setupAnalyser();
       if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-      if (friendsAudio.paused) {
-        friendsAudio.play();
-        playBtn.textContent = "❚❚";
-        if (!rafId) drawWaveform();
-        duckBackgroundMusic();
-      } else {
-        friendsAudio.pause();
-        playBtn.textContent = "▶";
-        restoreBackgroundMusic();
+      audio.play();
+      playBtn.textContent = "❚❚";
+      if (!rafId) drawWaveform();
+      duckBackgroundMusic();
+      if (opts.onPlay) opts.onPlay();
+    }
+    function doPause() {
+      audio.pause();
+      playBtn.textContent = "▶";
+      restoreBackgroundMusic();
+    }
+
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) doPlay(); else doPause();
+    });
+
+    return { audio, play: doPlay, pause: doPause };
+  }
+
+  // Mid-scroll voice notes player
+  buildAudioPlayer(document.getElementById("playerCard"), STORY.voicenotes.audioSrc);
+
+  /* ---------------- FINAL AUDIO POPUP ---------------- */
+  const finalSection = document.getElementById("final");
+  const popupOverlay = document.getElementById("finalPopupOverlay");
+  const popupPlayerCard = document.getElementById("popupPlayerCard");
+  const popupAfter = document.getElementById("popupAfter");
+  const popupCloseBtn = document.getElementById("popupCloseBtn");
+  let popupShown = false;
+  let popupPlayer = null;
+
+  const finalObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !popupShown) {
+        popupShown = true;
+        setTimeout(() => {
+          popupOverlay.classList.add("show");
+          popupPlayer = buildAudioPlayer(popupPlayerCard, STORY.voicenotes.audioSrc, {
+            onEnded: () => {
+              popupAfter.classList.add("show");
+              popupCloseBtn.classList.remove("hidden");
+            }
+          });
+          startPopupParticles();
+        }, 1600);
+        finalObserver.disconnect();
       }
     });
+  }, { threshold: 0.6 });
+  finalObserver.observe(finalSection);
+
+  popupCloseBtn.addEventListener("click", () => {
+    popupOverlay.classList.remove("show");
+    if (popupPlayer) popupPlayer.pause();
+    stopPopupParticles();
+  });
+
+  // small blue particle drift inside the popup overlay
+  const popupCanvas = document.getElementById("popupParticles");
+  const pctx = popupCanvas.getContext("2d");
+  let popupParticles = [], popupRaf = null;
+  function sizePopupCanvas() {
+    popupCanvas.width = window.innerWidth;
+    popupCanvas.height = window.innerHeight;
   }
+  function startPopupParticles() {
+    if (reduceMotion) return;
+    sizePopupCanvas();
+    popupParticles = Array.from({ length: 40 }, () => ({
+      x: Math.random() * popupCanvas.width,
+      y: Math.random() * popupCanvas.height,
+      r: 0.6 + Math.random() * 1.5,
+      speed: 0.15 + Math.random() * 0.35,
+      alpha: 0.2 + Math.random() * 0.5
+    }));
+    function tick() {
+      pctx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
+      popupParticles.forEach(p => {
+        pctx.beginPath();
+        pctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        pctx.fillStyle = `rgba(125,211,252,${p.alpha})`;
+        pctx.fill();
+        p.y -= p.speed;
+        if (p.y < 0) p.y = popupCanvas.height;
+      });
+      popupRaf = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+  function stopPopupParticles() {
+    if (popupRaf) cancelAnimationFrame(popupRaf);
+    pctx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
+  }
+  window.addEventListener("resize", sizePopupCanvas);
 
   /* ---------------- OPTIONAL BACKGROUND MUSIC ---------------- */
   let bgMusic = null;
@@ -424,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fadeVolume(bgMusic, musicMuted ? 0 : 0.35, 400);
   });
 
-  /* ---------------- PARTICLE BACKGROUND ---------------- */
+   /* ---------------- PARTICLE BACKGROUND ---------------- */
   const canvas = document.getElementById("particles");
   const ctx = canvas.getContext("2d");
   let w, h, particles;
@@ -443,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
       speed: 0.08 + Math.random() * 0.22,
       drift: -0.15 + Math.random() * 0.3,
       alpha: 0.15 + Math.random() * 0.5,
-      hue: Math.random() > 0.5 ? "169,139,255" : "232,99,159"
+      hue: Math.random() > 0.5 ? "96,165,250" : "56,189,248"
     }));
   }
 
