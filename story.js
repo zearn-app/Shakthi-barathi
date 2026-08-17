@@ -18,9 +18,8 @@ const STORY = {
   timelineHeading: "Ellame oru simple chat la tha  dhaane start aachu…",
   timeline: [
     { label: "First… just oru class met" },
-    { label: "Apram… konjam close friend." },
-    { label: "Apram… romba close." },
-    { label: "Apram… Best Friend ah? 😂" }
+    { label: "Apram… konjam friend." },
+    { label: "ipo… Best Friend ah? 😂" }
   ],
 
   // ---- 3. namma chats ----
@@ -37,7 +36,6 @@ const STORY = {
     { text: "Aana…", hi: false },
     { text: "Eppo namma ivlo close aanom nu theriyala.", hi: false },
     { text: "Pesitu irundhom…", hi: false },
-    { text: "Random ah pesinom…", hi: false },
     { text: "Konjam konjam ah…", hi: false },
     { text: "Nee en best friend aayita. 💙", hi: true }
   ],
@@ -46,7 +44,7 @@ const STORY = {
   portraitEyebrow: "...",
   portrait: [
     { text: "Nee enna care panra sila vishayangal…", hi: false },
-    { text: "…naan veliya sollama irundhaalum notice panniruppen.", hi: true },
+    { text: "…naan veliya sollama irundhaalum nee notice pannirupe", hi: true },
     { text: "Honestly…", hi: false },
     { text: "Adhu romba special. 💙", hi: true }
   ],
