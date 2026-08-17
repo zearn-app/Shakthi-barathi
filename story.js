@@ -66,7 +66,7 @@ const STORY = {
   galleryHeading: "un photos enta avalotha iruthuachu pah ",
   gallerySub: " 🩵",
   gallery: [
-    { src: "mem1.jpg", caption: "." },
+    { src: "mem7.jpg", caption: "." },
     { src: "mem2.jpg", caption: "." },
     { src: "mem4.jpg", caption: "." },
     { src: "mem6.jpg", caption: "." },
