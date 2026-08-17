@@ -17,11 +17,11 @@ const STORY = {
 
   // ---- Section 2: timeline ----
   timeline: [
-    { label: "a stranger" },
+    { label: "class met" },
     { label: "friend" },
     { label: "close friend" },
     { label: "best friend" },
-    { label: "someone special" }
+    { label: "special friend" }
   ],
 
   // ---- Section 3: chat bubbles (sent = you, recv = her) ----
@@ -60,12 +60,12 @@ const STORY = {
 
   // ---- Section 7: gallery — swap src for your own photos, add more freely ----
   gallery: [
-    { src: "assets/mem1.jpg", caption: "One of those moments…" },
-    { src: "assets/mem2.jpg", caption: "Still makes me smile." },
-    { src: "assets/mem4.jpg", caption: "A memory worth keeping." },
-    { src: "assets/mem6.jpg", caption: "Just us, being us." },
-    { src: "assets/mem5.jpg", caption: "Somewhere in between the laughs." },
-    { src: "assets/mem3.jpg", caption: "A little chaos, a lot of love." }
+    { src: "mem1.jpg", caption: "One of those moments…" },
+    { src: "mem2.jpg", caption: "Still makes me smile." },
+    { src: "mem4.jpg", caption: "A memory worth keeping." },
+    { src: "mem6.jpg", caption: "Just us, being us." },
+    { src: "mem5.jpg", caption: "Somewhere in between the laughs." },
+    { src: "mem3.jpg", caption: "A little chaos, a lot of love." }
   ],
 
   // ---- Section 9: birthday reveal ----
