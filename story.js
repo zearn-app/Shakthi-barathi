@@ -11,7 +11,7 @@ const STORY = {
   intro: [
     "Sila people namma life-la vandhu…",
     "…eppadiyo namma life-oda oru part aayiduvanga.",
-    "Idhu namma chinna story… ❤️"
+    "Idhu namma chinna story… 💙"
   ],
   startLabel: "START PANLAMA? ✨",
 
@@ -22,7 +22,7 @@ const STORY = {
     { label: "Apram… konjam close friend." },
     { label: "Apram… romba close." },
     { label: "Apram… Best Friend ah? 😂" },
-    { label: "Ippo… nee romba special. ❤️" }
+    { label: "Ippo… nee romba special. 💙" }
   ],
 
   // ---- 3. namma chats ----
@@ -42,7 +42,7 @@ const STORY = {
     { text: "Sirichitu irundhom…", hi: false },
     { text: "Random ah pesinom…", hi: false },
     { text: "Konjam konjam ah…", hi: false },
-    { text: "Nee en best friend aayita. ❤️", hi: true }
+    { text: "Nee en best friend aayita. 💙", hi: true }
   ],
 
   // ---- 5 & 6. portrait reveal + message ----
@@ -53,7 +53,7 @@ const STORY = {
     { text: "Nee enna care panra sila vishayangal…", hi: false },
     { text: "…naan veliya sollama irundhaalum notice panniruppen.", hi: true },
     { text: "Honestly…", hi: false },
-    { text: "Adhu romba special. ❤️", hi: true }
+    { text: "Adhu romba special. 💙", hi: true }
   ],
 
   // ---- 7. un care ----
@@ -64,12 +64,12 @@ const STORY = {
     "Random ah pesinalum kekka time kuduppa.",
     "Sila neram enna vida enna nee nalla purinjippa.",
     "Adhaan nee just oru friend illa…",
-    "Nee en bestie. ❤️"
+    "Nee en bestie. 💙"
   ],
 
   // ---- 8. memory gallery ----
   galleryHeading: "namma memories…",
-  gallerySub: "konjam pazhaya moments 💜",
+  gallerySub: "konjam pazhaya moments 🩵",
   gallery: [
     { src: "assets/mem1.jpg", caption: "Indha moment nyabagam irukka?" },
     { src: "assets/mem2.jpg", caption: "Idhu random ah irundhaalum…" },
@@ -81,12 +81,12 @@ const STORY = {
 
   // ---- 9. friend -> best friend transition ----
   bfLead: "Namma start pannadhu…",
-  bfWord1: "FRIENDSHIP.",
-  bfWord2: "BEST FRIENDSHIP.",
-  bfSub: "aana ippo… nee en life-la romba special person. ❤️",
+  bfWord1: "FRIENDSHIP",
+  bfWord2: "BEST FRIENDSHIP",
+  bfSub: "aana ippo… nee en life-la romba special person. 💙",
 
   // ---- 10. birthday reveal ----
-  birthdayHeading: "HAPPY BIRTHDAY DI ❤️🎂",
+  birthdayHeading: "HAPPY BIRTHDAY DI 💙🎂",
   birthday: [
     "Innaiku un birthday…",
     "So konjam over ah oru wish panna thappilla nu nenachen. 😂",
@@ -108,7 +108,7 @@ const STORY = {
     "Adhu enakku romba valuable.",
     "So innaiku un birthday-ku…",
     "Unakku oru vishayam mattum sollanum.",
-    "__CLOSE__Nee happy ah irukkanum. Always. ❤️",
+    "__CLOSE__Nee happy ah irukkanum. Always. 💙",
     "Un smile apdiye irukkanum.",
     "Nee enna dream pannalum adhu achieve aaganum.",
     "And… namma friendship ipdiye nalla irukkanum. 🫶"
@@ -118,13 +118,13 @@ const STORY = {
   surprise: [
     { text: "Wait…", hi: false },
     { text: "innum oru surprise irukku. 👀", hi: true },
-    { text: "Un friends ellarum unakku oru wish sollirukaanga. ❤️", hi: true },
+    { text: "Un friends ellarum unakku oru wish sollirukaanga. 💙", hi: true },
     { text: "Ellarum send pannina voice wishes ah onna collect panniten.", hi: false }
   ],
 
-  // ---- 13-15. friends' voice notes player ----
+  // ---- 13-15. friends' voice notes player (mid-scroll) ----
   voicenotes: {
-    heading: "Unakku wish panna vandha ellarum ❤️",
+    heading: "Unakku wish panna vandha ellarum 💙",
     sub: "Play panni keluu… 😌🎧",
     // Paste your GitHub raw audio URL below, e.g.
     // "https://raw.githubusercontent.com/USERNAME/REPOSITORY/main/audio/birthday-wishes.mp3"
@@ -145,8 +145,18 @@ const STORY = {
     "Oru simple friendship-la start aachu…",
     "Best friendship ah maarichu…",
     "And ippo…",
-    "Nee en life-la romba special. ❤️"
+    "Nee en life-la romba special. 💙"
   ],
   finalNote: "Namma story innum continue aagite irukku…",
-  finalTiny: "So… next chapter-ku ready ah? ✨"
+  finalTiny: "So… next chapter-ku ready ah? ✨",
+
+  // ---- 20. final audio popup (appears once, after reaching the end) ----
+  finalPopup: {
+    teaser: "One last thing… 👀💙",
+    lead: "Unakku mattum oru full wish ready ah irukku.",
+    playLabel: "▶ PLAY FULL WISHES",
+    afterText: "Ippo dhaan full ah wish pannitaanga 😂💙",
+    afterSub: "Happy Birthday diii 🥹💙",
+    closeLabel: "CLOSE ✨"
+  }
 };
