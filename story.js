@@ -63,19 +63,19 @@ const STORY = {
   ],
 
   // ---- 8. memory gallery ----
-  galleryHeading: "namma memories…",
-  gallerySub: "konjam pazhaya moments 🩵",
+  galleryHeading: "un photos enta avalotha iruthuachu pah ",
+  gallerySub: " 🩵",
   gallery: [
-    { src: "mem1.jpg", caption: "Indha moment nyabagam irukka?" },
-    { src: "mem2.jpg", caption: "Idhu random ah irundhaalum…" },
-    { src: "mem4.jpg", caption: "Enakku idhu oru memory." },
-    { src: "mem6.jpg", caption: "Namma rendu perukkum mattum puriyura moments." },
-    { src: "mem5.jpg", caption: "Idhu kooda oru nalla memory dhaan." },
-    { src: "mem3.jpg", caption: "Konjam chaos, romba love. 😂" }
+    { src: "mem1.jpg", caption: "." },
+    { src: "mem2.jpg", caption: "." },
+    { src: "mem4.jpg", caption: "." },
+    { src: "mem6.jpg", caption: "." },
+    { src: "mem5.jpg", caption: "." },
+    { src: "mem3.jpg", caption: "." }
   ],
 
   // ---- 9. friend -> best friend transition ----
-  bfLead: "Namma start pannadhu…",
+  bfLead: "ipadi start pannadhu…",
   bfWord1: "FRIENDSHIP",
   bfWord2: "BEST FRIENDSHIP",
   bfSub: "aana ippo… nee en life-la romba special friend. 💙",
