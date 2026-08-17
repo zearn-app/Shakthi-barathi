@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>our little story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ CONFIG-DRIVEN CONTENT LIVES IN story.js ============ */
+:root{
+  --void:#07040d;
+  --plum:#160a26;
+  --violet:#8b6bf0;
+  --violet-soft:#a98bff;
+  --rose:#e8639f;
+  --gold:#f3c26b;
+  --ink:#f4f1fa;
+  --ink-dim:#c9c0e0;
+  --serif:"Fraunces", serif;
+  --sans:"Outfit", sans-serif;
+  --hand:"Caveat", cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow-x:hidden;
+  cursor:default;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--violet);color:#fff;}
+
+/* particle canvas */
+#particles{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.7;}
+
+/* progress dots nav */
+#navdots{
+  position:fixed;
+  right:16px;top:50%;transform:translateY(-50%);
+  z-index:50;
+  display:flex;flex-direction:column;gap:10px;
+}
+#navdots button{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(244,241,250,.25);
+  border:1px solid rgba(244,241,250,.3);
+  cursor:pointer;transition:all .4s ease;
+  padding:0;
+}
+#navdots button.active{
+  background:var(--violet-soft);
+  box-shadow:0 0 10px var(--violet-soft);
+  height:22px;border-radius:5px;
+  border-color:var(--violet-soft);
+}
+@media (max-width:640px){#navdots{right:10px;gap:8px;}}
+
+/* scroll progress bar top */
+#scrollbar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--rose));z-index:60;width:0%;transition:width .1s linear;}
+
+section{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:80px 24px;
+  z-index:5;
+  text-align:center;
+  overflow:hidden;
+}
+
+.eyebrow{
+  font-family:var(--sans);
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  font-size:11px;
+  color:var(--violet-soft);
+  margin-bottom:18px;
+  opacity:.85;
+}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-delay-1.in{transition-delay:.12s;}
+.reveal-delay-2.in{transition-delay:.26s;}
+.reveal-delay-3.in{transition-delay:.4s;}
+.reveal-delay-4.in{transition-delay:.55s;}
+
+/* ============ INTRO ============ */
+#intro{background:radial-gradient(ellipse at 50% 30%,#1c0f30 0%,var(--void) 70%);}
+.intro-line{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(22px,5.4vw,42px);
+  line-height:1.4;
+  max-width:680px;
+  min-height:1.5em;
+  opacity:0;
+}
+.intro-line.show{animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+#startBtn{
+  margin-top:56px;
+  background:transparent;
+  border:1px solid rgba(169,139,255,.5);
+  color:var(--ink);
+  font-family:var(--sans);
+  letter-spacing:.08em;
+  padding:14px 30px;
+  border-radius:100px;
+  font-size:14px;
+  cursor:pointer;
+  opacity:0;
+  transition:opacity 1s ease, background .3s, box-shadow .3s, transform .3s;
+}
+#startBtn.show{opacity:1;}
+#startBtn:hover{background:rgba(139,107,240,.15);box-shadow:0 0 30px rgba(139,107,240,.4);transform:translateY(-2px);}
+#startBtn:active{transform:translateY(0);}
+
+/* ============ TIMELINE ============ */
+#timeline h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,6vw,44px);margin-bottom:64px;max-width:600px;}
+.tl-wrap{position:relative;max-width:420px;width:100%;}
+.tl-line{position:absolute;left:15px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,transparent,rgba(169,139,255,.5) 15%,rgba(169,139,255,.5) 85%,transparent);}
+.tl-item{position:relative;padding:0 0 52px 46px;text-align:left;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{position:absolute;left:8px;top:2px;width:15px;height:15px;border-radius:50%;background:var(--void);border:2px solid var(--violet-soft);box-shadow:0 0 0 0 rgba(169,139,255,.4);}
+.tl-item.in .tl-dot{box-shadow:0 0 18px 2px rgba(169,139,255,.55);}
+.tl-item p{font-family:var(--serif);font-size:20px;color:var(--ink);}
+.tl-item span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);margin-top:4px;}
+
+/* ============ CHAT ============ */
+#chat{padding-top:100px;padding-bottom:100px;}
+#chat h2{font-family:var(--serif);font-weight:400;font-size:clamp(24px,5.5vw,36px);margin-bottom:56px;}
+.bubble-col{display:flex;flex-direction:column;gap:14px;width:100%;max-width:380px;}
+.bubble{
+  padding:12px 18px;border-radius:20px;font-size:15.5px;line-height:1.4;
+  max-width:78%;text-align:left;opacity:0;transform:translateY(16px) scale(.96);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.bubble.in{opacity:1;transform:translateY(0) scale(1);}
+.bubble.sent{align-self:flex-end;background:linear-gradient(135deg,var(--violet),#b060d6);color:#fff;border-bottom-right-radius:6px;}
+.bubble.recv{align-self:flex-start;background:#241a38;color:var(--ink);border-bottom-left-radius:6px;}
+.reaction{position:absolute;bottom:-6px;right:8px;font-size:13px;opacity:0;}
+.bubble.in .reaction{animation:floatUp 1.8s ease forwards .5s;}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0);}20%{opacity:1;}100%{opacity:0;transform:translateY(-26px);}}
+
+/* ============ TRANSITION LINES ============ */
+.line-stack{display:flex;flex-direction:column;gap:26px;max-width:560px;}
+.line-stack p{font-family:var(--serif);font-size:clamp(20px,5vw,32px);font-weight:400;color:var(--ink-dim);}
+.line-stack p.hi{color:var(--ink);}
+
+/* ============ PORTRAIT ============ */
+#portrait-section{padding-top:60px;}
+.portrait-stage{position:relative;width:min(70vw,300px);margin:0 auto 40px;}
+.portrait-glow{position:absolute;inset:-30px;border-radius:50%;background:radial-gradient(circle,rgba(169,139,255,.45),transparent 65%);filter:blur(30px);animation:pulseGlow 5s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+.portrait-img{position:relative;width:100%;display:block;border-radius:16px;filter:drop-shadow(0 20px 60px rgba(0,0,0,.6));}
+.portrait-caption{font-family:var(--hand);font-size:26px;color:var(--violet-soft);margin-top:6px;}
+#portrait-section .msg{max-width:420px;}
+#portrait-section .msg p{font-family:var(--serif);font-size:clamp(19px,4.6vw,27px);line-height:1.5;margin-bottom:14px;color:var(--ink-dim);}
+#portrait-section .msg p.hi{color:var(--ink);}
+
+/* ============ CARE CARDS ============ */
+#care h2{font-family:var(--serif);font-size:clamp(26px,6vw,42px);font-weight:400;margin-bottom:52px;}
+.card-stack{display:flex;flex-direction:column;gap:18px;width:100%;max-width:400px;}
+.care-card{
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  padding:22px 24px;
+  text-align:left;
+  font-family:var(--serif);
+  font-size:18px;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+}
+.care-card.in{opacity:1;transform:translateY(0);}
+.care-card .num{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--violet-soft);display:block;margin-bottom:8px;}
+
+/* ============ GALLERY ============ */
+#gallery{padding-top:80px;padding-bottom:80px;}
+#gallery h2{font-family:var(--serif);font-size:clamp(24px,5.5vw,36px);font-weight:400;margin-bottom:12px;}
+#gallery .sub{color:var(--ink-dim);font-size:14px;margin-bottom:48px;}
+.gal-track{display:flex;flex-direction:column;gap:70px;width:100%;max-width:340px;}
+.gal-item{position:relative;opacity:0;transform:translateY(30px) rotate(var(--r,0deg));transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.gal-item.in{opacity:1;transform:translateY(0) rotate(var(--r,0deg));}
+.gal-item:nth-child(2){align-self:flex-end;}
+.gal-item:nth-child(3){align-self:flex-start;}
+.gal-item img{width:100%;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.55);border:6px solid #fff2;}
+.gal-cap{font-family:var(--hand);font-size:22px;color:var(--gold);margin-top:10px;display:block;}
+
+/* ============ BEST FRIEND TRANSITION ============ */
+#bf{background:var(--void);}
+.bf-word{font-family:var(--serif);font-weight:600;font-size:clamp(30px,9vw,64px);letter-spacing:.02em;opacity:0;transition:opacity 1s ease, transform 1s ease;transform:scale(.9);}
+.bf-word.in{opacity:1;transform:scale(1);}
+.bf-word.grad{background:linear-gradient(90deg,var(--violet-soft),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.bf-sub{font-family:var(--sans);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-dim);margin-top:22px;opacity:0;transition:opacity 1s ease .3s;}
+.bf-sub.in{opacity:1;}
+
+/* ============ BIRTHDAY REVEAL ============ */
+#birthday{background:radial-gradient(ellipse at 50% 20%,#2a1244 0%,var(--void) 65%);padding-top:60px;}
+.cake{width:150px;height:150px;position:relative;margin:0 auto 30px;}
+.candle{position:absolute;bottom:78px;width:5px;height:34px;background:linear-gradient(#fff,#e8c98a);border-radius:2px;}
+.candle::after{content:"";position:absolute;top:-14px;left:-4px;width:13px;height:16px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff5c0,var(--gold) 60%,transparent 100%);opacity:0;filter:blur(.3px);}
+.candle.lit::after{animation:flicker 1.4s ease-in-out infinite;}
+@keyframes flicker{0%,100%{opacity:1;transform:scale(1) translateY(0);}50%{opacity:.75;transform:scale(.9) translateY(1px);}}
+.tier1{position:absolute;bottom:0;left:15px;width:120px;height:55px;background:linear-gradient(180deg,#3d2255,#2a1740);border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,.4);}
+.tier2{position:absolute;bottom:48px;left:32px;width:86px;height:42px;background:linear-gradient(180deg,#4a2a63,#33204a);border-radius:6px;}
+.tier1::before,.tier2::before{content:"";position:absolute;top:-6px;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,#f3c26b,#f3c26b 6px,#e8639f 6px,#e8639f 12px);border-radius:6px 6px 0 0;opacity:.85;}
+#birthday h2{font-family:var(--serif);font-weight:600;font-size:clamp(32px,8vw,54px);margin-bottom:18px;}
+#birthday .msg{max-width:440px;font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--ink-dim);margin-bottom:14px;}
+#birthday .msg.hi{color:var(--ink);}
+#confettiCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+/* ============ LETTER ============ */
+#letter h2{font-family:var(--serif);font-weight:400;font-size:clamp(24px,5.5vw,34px);margin-bottom:36px;}
+.letter-card{
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:22px;
+  padding:36px 28px;
+  max-width:460px;
+  text-align:left;
+  backdrop-filter:blur(16px);
+  box-shadow:0 30px 80px rgba(0,0,0,.4);
+}
+.letter-card p{font-family:var(--serif);font-size:16.5px;line-height:1.85;color:var(--ink-dim);margin-bottom:14px;}
+.letter-card p.close{font-family:var(--hand);font-size:26px;color:var(--gold);margin-top:8px;}
+.letter-card p:last-child{margin-bottom:0;}
+
+/* ============ FINAL ============ */
+#final{padding-top:60px;}
+.final-portrait{width:min(58vw,230px);position:relative;margin-bottom:32px;}
+.final-portrait img{width:100%;filter:drop-shadow(0 25px 60px rgba(0,0,0,.6));}
+.final-line{font-family:var(--serif);font-size:clamp(18px,4.6vw,26px);color:var(--ink-dim);margin-bottom:10px;min-height:1.4em;}
+.final-name{font-family:var(--serif);font-weight:600;font-size:clamp(28px,7vw,46px);background:linear-gradient(90deg,var(--violet-soft),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent;margin:18px 0 14px;}
+.final-note{color:var(--ink-dim);font-size:14px;margin-top:6px;}
+.scroll-back{margin-top:36px;font-size:13px;letter-spacing:.1em;color:var(--violet-soft);text-decoration:none;border-bottom:1px solid rgba(169,139,255,.3);padding-bottom:2px;}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div id="scrollbar"></div>
+<nav id="navdots"></nav>
+
+<!-- ============ SECTION 1: INTRO ============ -->
+<section id="intro">
+  <div id="introLines"></div>
+  <button id="startBtn">start the journey ↓</button>
+</section>
+
+<!-- ============ SECTION 2: HOW IT STARTED ============ -->
+<section id="timeline">
+  <div class="eyebrow reveal">chapter one</div>
+  <h2 class="reveal">It all started with a friendship.</h2>
+  <div class="tl-wrap">
+    <div class="tl-line"></div>
+    <div id="tlItems"></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: CHAT ============ -->
+<section id="chat">
+  <div class="eyebrow reveal">chapter two</div>
+  <h2 class="reveal">our conversations</h2>
+  <div class="bubble-col" id="bubbleCol"></div>
+</section>
+
+<!-- ============ SECTION 4: SOMEWHERE ALONG THE WAY ============ -->
+<section id="along">
+  <div class="line-stack" id="alongLines"></div>
+</section>
+
+<!-- ============ SECTION 5: PORTRAIT REVEAL ============ -->
+<section id="portrait-section">
+  <div class="eyebrow reveal">chapter three</div>
+  <div class="portrait-stage reveal">
+    <div class="portrait-glow"></div>
+    <img class="portrait-img" src="assets/portrait.jpg" alt="her portrait">
+  </div>
+  <div class="msg" id="portraitMsg"></div>
+</section>
+
+<!-- ============ SECTION 6: CARE CARDS ============ -->
+<section id="care">
+  <div class="eyebrow reveal">chapter four</div>
+  <h2 class="reveal">And you care&hellip;</h2>
+  <div class="card-stack" id="cardStack"></div>
+</section>
+
+<!-- ============ SECTION 7: GALLERY ============ -->
+<section id="gallery">
+  <div class="eyebrow reveal">chapter five</div>
+  <h2 class="reveal">memory gallery</h2>
+  <div class="sub reveal">a few moments worth keeping</div>
+  <div class="gal-track" id="galTrack"></div>
+</section>
+
+<!-- ============ SECTION 8: BEST FRIEND TRANSITION ============ -->
+<section id="bf">
+  <div class="bf-word" id="bfWord1">FRIENDS.</div>
+  <div class="bf-word grad" id="bfWord2" style="margin-top:8px;">BEST FRIENDS.</div>
+  <div class="bf-sub" id="bfSub">and somehow&hellip; you became someone really special.</div>
+</section>
+
+<!-- ============ SECTION 9: BIRTHDAY REVEAL ============ -->
+<section id="birthday">
+  <canvas id="confettiCanvas"></canvas>
+  <div class="eyebrow reveal">chapter six</div>
+  <div class="cake reveal" id="cakeEl">
+    <div class="tier1"></div>
+    <div class="tier2"></div>
+  </div>
+  <h2 class="reveal">HAPPY BIRTHDAY <span style="color:var(--rose)">❤</span></h2>
+  <p class="msg hi reveal" id="bdayLine1"></p>
+  <p class="msg reveal" id="bdayLine2"></p>
+</section>
+
+<!-- ============ SECTION 10: LETTER ============ -->
+<section id="letter">
+  <div class="eyebrow reveal">a little message for you</div>
+  <h2 class="reveal">before you go&hellip;</h2>
+  <div class="letter-card reveal" id="letterCard"></div>
+</section>
+
+<!-- ============ SECTION 11: FINAL ============ -->
+<section id="final">
+  <div class="final-portrait reveal">
+    <img src="assets/portrait.jpg" alt="her portrait">
+  </div>
+  <div id="finalLines"></div>
+  <div class="final-name reveal" id="finalName"></div>
+  <div class="final-note reveal">our story is still being written&hellip;</div>
+  <a href="#intro" class="scroll-back reveal">scroll back anytime you want ✨</a>
+</section>
+
+<script src="story.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
