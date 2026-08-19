@@ -77,8 +77,7 @@ const STORY = {
     { src: "mem6.jpg", caption: "." },
   ],
 
-  // ---- 9. friend -> best friend
- transition ----
+  // ---- 9. friend -> best friend    transition ----
   bfLead: "ipadi start pannadhu…",
   bfWord1: "BEST FRIENDSHIP",
   bfSub: "aana ippo… nee en life-la romba special friend. 💙",
