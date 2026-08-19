@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     p.textContent = text;
     finalLinesEl.appendChild(p);
   });
-  document.getElementById("finalName").textContent = `HAPPY BIRTHDAY, ${STORY.herName} DI 💙🎂`;
+  document.getElementById("finalName").textContent = `HAPPY BIRTHDAY, ${STORY.herName} 💙🎂`;
   document.getElementById("finalNoteEl").textContent = STORY.finalNote;
   document.getElementById("finalTinyEl").textContent = STORY.finalTiny;
 
