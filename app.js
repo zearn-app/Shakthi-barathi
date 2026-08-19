@@ -99,8 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     surpriseLines.appendChild(p);
   });
 
-  document.getElementById("vnHeading").textContent = STORY.voicenotes.heading;
-  document.getElementById("vnSub").textContent = STORY.voicenotes.sub;
+  document.getElementById("waitLine1").textContent = STORY.finalWait.line1;
+  document.getElementById("waitLine2").textContent = STORY.finalWait.line2;
+  document.getElementById("openSurpriseBtn").textContent = STORY.finalWait.openLabel;
 
   const finalPreEl = document.getElementById("finalPre");
   STORY.finalPre.forEach(text => {
@@ -398,42 +399,84 @@ document.addEventListener("DOMContentLoaded", () => {
     return { audio, play: doPlay, pause: doPause };
   }
 
-  // Mid-scroll voice notes player
-  buildAudioPlayer(document.getElementById("playerCard"), STORY.voicenotes.audioSrc);
-
-  /* ---------------- FINAL AUDIO POPUP ---------------- */
-  const finalSection = document.getElementById("final");
+  /* ---------------- FINAL SURPRISE: WAIT -> REVEAL -> POPUP ---------------- */
+  const finalAudioSection = document.getElementById("finalAudio");
+  const waitProgressFill = document.getElementById("waitProgressFill");
+  const openSurpriseBtn = document.getElementById("openSurpriseBtn");
   const popupOverlay = document.getElementById("finalPopupOverlay");
   const popupPlayerCard = document.getElementById("popupPlayerCard");
   const popupAfter = document.getElementById("popupAfter");
   const popupCloseBtn = document.getElementById("popupCloseBtn");
-  let popupShown = false;
+  let waitStarted = false;
   let popupPlayer = null;
 
-  const finalObserver = new IntersectionObserver((entries) => {
+  // Ambient particles inside the "wait" stage
+  const waitCanvas = document.getElementById("waitParticles");
+  const wpctx = waitCanvas.getContext("2d");
+  let waitParticles = [], waitRaf = null;
+  function sizeWaitCanvas() {
+    waitCanvas.width = finalAudioSection.clientWidth;
+    waitCanvas.height = finalAudioSection.clientHeight;
+  }
+  function startWaitParticles() {
+    if (reduceMotion) return;
+    sizeWaitCanvas();
+    waitParticles = Array.from({ length: 26 }, () => ({
+      x: Math.random() * waitCanvas.width,
+      y: Math.random() * waitCanvas.height,
+      r: 0.6 + Math.random() * 1.4,
+      speed: 0.12 + Math.random() * 0.28,
+      alpha: 0.15 + Math.random() * 0.45
+    }));
+    function tick() {
+      wpctx.clearRect(0, 0, waitCanvas.width, waitCanvas.height);
+      waitParticles.forEach(p => {
+        wpctx.beginPath();
+        wpctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        wpctx.fillStyle = `rgba(125,211,252,${p.alpha})`;
+        wpctx.fill();
+        p.y -= p.speed;
+        if (p.y < 0) p.y = waitCanvas.height;
+      });
+      waitRaf = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+  window.addEventListener("resize", sizeWaitCanvas);
+
+  const waitObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !popupShown) {
-        popupShown = true;
-        setTimeout(() => {
-          popupOverlay.classList.add("show");
-          popupPlayer = buildAudioPlayer(popupPlayerCard, STORY.voicenotes.audioSrc, {
-            onEnded: () => {
-              popupAfter.classList.add("show");
-              popupCloseBtn.classList.remove("hidden");
-            }
-          });
-          startPopupParticles();
-        }, 1600);
-        finalObserver.disconnect();
+      if (entry.isIntersecting && !waitStarted) {
+        waitStarted = true;
+        startWaitParticles();
+        requestAnimationFrame(() => { waitProgressFill.style.width = "100%"; });
+        const waitMs = reduceMotion ? 250 : 2800;
+        setTimeout(() => openSurpriseBtn.classList.add("show"), waitMs);
+        waitObserver.disconnect();
       }
     });
-  }, { threshold: 0.6 });
-  finalObserver.observe(finalSection);
+  }, { threshold: 0.5 });
+  waitObserver.observe(finalAudioSection);
+
+  openSurpriseBtn.addEventListener("click", () => {
+    popupOverlay.classList.add("show");
+    if (!popupPlayer) {
+      popupPlayer = buildAudioPlayer(popupPlayerCard, STORY.voicenotes.audioSrc, {
+        onEnded: () => {
+          popupAfter.classList.add("show");
+          popupCloseBtn.classList.remove("hidden");
+        }
+      });
+    }
+    startPopupParticles();
+  });
 
   popupCloseBtn.addEventListener("click", () => {
     popupOverlay.classList.remove("show");
     if (popupPlayer) popupPlayer.pause();
     stopPopupParticles();
+    if (waitRaf) cancelAnimationFrame(waitRaf);
+    wpctx.clearRect(0, 0, waitCanvas.width, waitCanvas.height);
   });
 
   // small blue particle drift inside the popup overlay
@@ -466,105 +509,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       popupRaf = requestAnimationFrame(tick);
     }
-    tick();
-  }
-  function stopPopupParticles() {
-    if (popupRaf) cancelAnimationFrame(popupRaf);
-    pctx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
-  }
-  window.addEventListener("resize", sizePopupCanvas);
-
-  /* ---------------- OPTIONAL BACKGROUND MUSIC ---------------- */
-  let bgMusic = null;
-  const musicToggle = document.getElementById("musicToggle");
-  let musicMuted = false;
-
-  if (STORY.backgroundMusicSrc) {
-    bgMusic = new Audio(STORY.backgroundMusicSrc);
-    bgMusic.loop = true;
-    bgMusic.volume = 0;
-    musicToggle.classList.add("show");
-  }
-
-  function startBackgroundMusic() {
-    if (!bgMusic) return;
-    bgMusic.play().catch(() => {});
-    fadeVolume(bgMusic, 0.35, 1200);
-  }
-
-  function fadeVolume(audioEl, target, duration) {
-    const start = audioEl.volume;
-    const steps = 20;
-    let step = 0;
-    const interval = setInterval(() => {
-      step++;
-      audioEl.volume = start + (target - start) * (step / steps);
-      if (step >= steps) clearInterval(interval);
-    }, duration / steps);
-  }
-
-  function duckBackgroundMusic() {
-    if (bgMusic && !musicMuted) fadeVolume(bgMusic, 0.05, 600);
-  }
-  function restoreBackgroundMusic() {
-    if (bgMusic && !musicMuted) fadeVolume(bgMusic, 0.35, 900);
-  }
-
-  musicToggle.addEventListener("click", () => {
-    if (!bgMusic) return;
-    musicMuted = !musicMuted;
-    musicToggle.textContent = musicMuted ? "🔇" : "🔊";
-    fadeVolume(bgMusic, musicMuted ? 0 : 0.35, 400);
-  });
-
-   /* ---------------- PARTICLE BACKGROUND ---------------- */
-  const canvas = document.getElementById("particles");
-  const ctx = canvas.getContext("2d");
-  let w, h, particles;
-
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = document.documentElement.scrollHeight;
-  }
-
-  function initParticles() {
-    const count = reduceMotion ? 0 : Math.min(80, Math.floor((w * h) / 40000));
-    particles = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: 0.6 + Math.random() * 1.6,
-      speed: 0.08 + Math.random() * 0.22,
-      drift: -0.15 + Math.random() * 0.3,
-      alpha: 0.15 + Math.random() * 0.5,
-      hue: Math.random() > 0.5 ? "96,165,250" : "56,189,248"
-    }));
-  }
-
-  resize();
-  initParticles();
-  window.addEventListener("resize", () => { resize(); initParticles(); });
-
-  let scrollY = window.scrollY;
-  window.addEventListener("scroll", () => { scrollY = window.scrollY; }, { passive: true });
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, w, h);
-    const viewTop = scrollY - 200;
-    const viewBottom = scrollY + window.innerHeight + 200;
-    particles.forEach(p => {
-      if (p.y < viewTop || p.y > viewBottom) return;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${p.hue},${p.alpha})`;
-      ctx.fill();
-      p.y -= p.speed;
-      p.x += p.drift * 0.3;
-      if (p.y < viewTop) p.y = viewBottom;
-    });
-    requestAnimationFrame(animateParticles);
-  }
-  if (!reduceMotion) animateParticles();
-  else ctx.clearRect(0, 0, w, h);
-
-  window.addEventListener("load", () => { resize(); initParticles(); });
-});
