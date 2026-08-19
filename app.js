@@ -509,7 +509,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       popupRaf = requestAnimationFrame(tick);
     }
-  }undMusicSrc) {
+    tick();
+  }
+  function stopPopupParticles() {
+    if (popupRaf) cancelAnimationFrame(popupRaf);
+    popupRaf = null;
+    pctx.clearRect(0, 0, popupCanvas.width, popupCanvas.height);
+  }
+
+  /* ---------------- BACKGROUND MUSIC ---------------- */
+  let bgMusic = null, musicMuted = false;
+  const musicToggle = document.getElementById("musicToggle");
+  if (STORY.backgroundMusicSrc) {
     bgMusic = new Audio(STORY.backgroundMusicSrc);
     bgMusic.loop = true;
     bgMusic.volume = 0;
