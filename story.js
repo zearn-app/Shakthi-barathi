@@ -114,13 +114,18 @@ const STORY = {
     { text: "-_-", hi: false }
   ],
 
-  // ---- 13-15. friends' voice notes player (mid-scroll) ----
+  // ---- friends' voice notes audio (used by the single final surprise popup) ----
   voicenotes: {
     heading: "Unakku wish panna vandha ellarum 💙",
     sub: "Play panni keluu… 😌🎧",
-    // Paste your GitHub raw audio URL below, e.g.
-    // "https://raw.githubusercontent.com/USERNAME/REPOSITORY/main/audio/birthday-wishes.mp3"
-    audioSrc: "YOUR_GITHUB_RAW_AUDIO_URL"
+    audioSrc: "voicenotes.mp3"
+  },
+
+  // ---- final surprise: wait experience before the reveal button ----
+  finalWait: {
+    line1: "Konjam wait pannu…",
+    line2: "something special is waiting for you 👀💙",
+    openLabel: "Surprise-a open pannalama? ❤️"
   },
 
   // optional: background music. Leave empty to skip — no music button will show.
@@ -137,7 +142,7 @@ const STORY = {
     "Oru simple friendship-la start aachu…",
     "Best friendship ah maarichu…",
     "And ippo…",
-    "Nee en life-la romba special. 💙"
+    "Nee en life-la romba special friend 💙"
   ],
   finalNote: "Namma story innum continue aagite irukku…",
   finalTiny: "So… next chapter-ku ready ah? ✨",
@@ -145,10 +150,10 @@ const STORY = {
   // ---- 20. final audio popup (appears once, after reaching the end) ----
   finalPopup: {
     teaser: "One last thing… 👀💙",
-    lead: "Unakku mattum oru full wish ready ah irukku.",
+    lead: "Unakku oru special wish ready ah irukku.",
     playLabel: "▶ PLAY FULL WISHES",
     afterText: "Ippo dhaan full ah wish pannitaanga 😂💙",
-    afterSub: "Happy Birthday diii 🥹💙",
+    afterSub: "Happy Birthday pahh🥹💙",
     closeLabel: "CLOSE ✨"
   }
 };
