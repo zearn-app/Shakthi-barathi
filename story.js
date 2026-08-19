@@ -15,15 +15,15 @@ const STORY = {
   startLabel: "kila scroll panni paru ✨",
 
   // ---- 2. namma story epdi start aachu ----
-  timelineHeading: "Ellame oru simple chat la tha  dhaane start aachu…",
+  timelineHeading: "Ellame oru simple chat la tha start aachu…",
   timeline: [
-    { label: "First… just oru class met" },
-    { label: "Apram… konjam friend." },
-    { label: "ipo… Best Friend ah? 😂" }
+    { label: "First… just oru classmet" },
+    { label: "Aprom… konjam friend." },
+    { label: "ipo… Best Friend ah 😂" }
   ],
 
   // ---- 3. namma chats ----
-  chatHeading: "ipadi start annathu ",
+  chatHeading: "ipadi start aanathu ",
   chat: [
     { from: "sent", text: "Unga kitta oru question kekkanum…" },
     { from: "recv", text: "Ahhh sollugaa pahh 😂", reaction: "😂" },
@@ -37,7 +37,7 @@ const STORY = {
     { text: "Eppo namma ivlo close aanom nu theriyala.", hi: false },
     { text: "Pesitu irundhom…", hi: false },
     { text: "Konjam konjam ah…", hi: false },
-    { text: "Nee en best friend aayita. 💙", hi: true }
+    { text: "Nee en best friend aayita 💙", hi: true }
   ],
 
   // ---- 5 & 6. portrait reveal + message ----
