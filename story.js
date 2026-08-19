@@ -145,7 +145,7 @@ const STORY = {
     "Nee en life-la romba special. 💙"
   ],
   finalNote: "Namma story innum continue aagite irukku…",
-  finalTiny: "So… next chapter-ku ready ah? ✨",
+  finalTiny: "__",
 
   // ---- 20. final audio popup (appears once, after reaching the end) ----
   finalPopup: {
@@ -153,7 +153,7 @@ const STORY = {
     lead: "Unakku mattum oru full wish ready ah irukku.",
     playLabel: "▶ PLAY FULL WISHES",
     afterText: "Ippo dhaan full ah wish pannitaanga 😂💙",
-    afterSub: "Happy Birthday diii 🥹💙",
+    afterSub: "Happy Birthday pahh 🥹💙",
     closeLabel: "CLOSE ✨"
   }
 };
