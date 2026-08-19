@@ -10,9 +10,9 @@ const STORY = {
   // ---- 1. opening screen ----
   intro: [
     "Sila peru namma life la vandhu…",
-    "…eppadiyo en life la oru best friend da Iruka ."
+    "…eppadiyo en life la oru best friend da Irukanga."
   ],
-  startLabel: "kella scroll panni paru ✨",
+  startLabel: "kila scroll panni paru ✨",
 
   // ---- 2. namma story epdi start aachu ----
   timelineHeading: "Ellame oru simple chat la tha  dhaane start aachu…",
