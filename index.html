@@ -160,9 +160,7 @@ section{position:relative;min-height:100svh;display:flex;flex-direction:column;a
 /* ===== SURPRISE ===== */
 #surprise{background:var(--void);}
 
-/* ===== VOICE NOTES / AUDIO PLAYER (shared styles, used mid-scroll + popup) ===== */
-#voicenotes h2{font-family:var(--serif);font-weight:400;font-size:clamp(22px,5.2vw,32px);margin-bottom:8px;}
-#voicenotes .sub{color:var(--ink-dimmer);font-size:14px;margin-bottom:44px;}
+/* ===== VOICE NOTES / AUDIO PLAYER (shared styles, used by the final popup) ===== */
 .player-card{width:100%;max-width:360px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(125,211,252,.16);border-radius:24px;padding:30px 26px;backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(0,0,0,.4);}
 .mic-wrap{width:74px;height:74px;border-radius:50%;margin:0 auto 22px;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(56,189,248,.28),transparent 70%);}
 .mic-glow{position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 rgba(56,189,248,.5);transition:box-shadow .1s ease;}
@@ -179,6 +177,25 @@ section{position:relative;min-height:100svh;display:flex;flex-direction:column;a
 .volume-bar::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:var(--ink-dimmer);cursor:pointer;}
 .player-empty{font-family:var(--serif);font-size:15px;color:var(--ink-dimmer);line-height:1.6;}
 .floating-heart{position:absolute;font-size:14px;opacity:0;pointer-events:none;}
+
+/* ===== FINAL SURPRISE WAIT ===== */
+#finalAudio{position:relative;gap:0;}
+.wait-particles{position:absolute;inset:0;pointer-events:none;opacity:.9;z-index:1;}
+.wait-stage{position:relative;display:flex;flex-direction:column;align-items:center;z-index:2;}
+.wait-orb{position:relative;width:96px;height:96px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;}
+.wait-orb-glow{position:absolute;inset:-26px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.5),transparent 68%);filter:blur(22px);animation:waitPulse 2.6s ease-in-out infinite;}
+.wait-orb-core{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#fff,var(--cyan) 70%);box-shadow:0 0 20px 4px rgba(56,189,248,.7);position:relative;z-index:2;animation:waitHeartbeat 1.3s ease-in-out infinite;}
+@keyframes waitPulse{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.16);}}
+@keyframes waitHeartbeat{0%,100%{transform:scale(1);}25%{transform:scale(1.22);}45%{transform:scale(.96);}}
+.wait-line{font-family:var(--serif);font-size:clamp(19px,4.8vw,27px);color:var(--ink-dimmer);margin-bottom:6px;max-width:400px;}
+.wait-line.hi{color:var(--ink);margin-bottom:0;margin-top:2px;}
+.wait-progress{width:min(220px,58vw);height:3px;border-radius:2px;background:rgba(255,255,255,.12);margin-top:38px;overflow:hidden;}
+.wait-progress-fill{width:0%;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--royal),var(--cyan));transition:width 2.8s cubic-bezier(.4,0,.2,1);}
+.reveal-btn{position:relative;z-index:2;margin-top:44px;background:transparent;border:1px solid rgba(96,165,250,.55);color:var(--ink);font-family:var(--sans);letter-spacing:.05em;padding:15px 34px;border-radius:100px;font-size:14.5px;cursor:pointer;opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),background .3s,box-shadow .3s;}
+.reveal-btn.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;animation:revealGlow 2.8s ease-in-out .9s infinite;}
+.reveal-btn:hover{background:rgba(37,99,235,.18);}
+.reveal-btn:active{transform:scale(.96);}
+@keyframes revealGlow{0%,100%{box-shadow:0 0 16px rgba(37,99,235,.25);}50%{box-shadow:0 0 34px rgba(56,189,248,.55);}}
 
 /* ===== FINAL ===== */
 #final{padding-top:60px;}
@@ -302,19 +319,26 @@ section{position:relative;min-height:100svh;display:flex;flex-direction:column;a
   <div class="line-stack" id="surpriseLines"></div>
 </section>
 
-<!-- 13-15. VOICE NOTES PLAYER (mid-scroll) -->
-<section id="voicenotes">
-  <div class="eyebrow reveal">pakuthi 07</div>
-  <h2 class="reveal" id="vnHeading"></h2>
-  <div class="sub reveal" id="vnSub"></div>
-  <div class="player-card reveal" id="playerCard"></div>
+<!-- 13. FINAL SURPRISE — wait experience, then reveal button -->
+<section id="finalAudio">
+  <canvas class="wait-particles" id="waitParticles"></canvas>
+  <div class="wait-stage">
+    <div class="wait-orb">
+      <div class="wait-orb-glow"></div>
+      <div class="wait-orb-core"></div>
+    </div>
+    <p class="wait-line reveal" id="waitLine1"></p>
+    <p class="wait-line hi reveal" id="waitLine2"></p>
+    <div class="wait-progress"><div class="wait-progress-fill" id="waitProgressFill"></div></div>
+  </div>
+  <button class="reveal-btn" id="openSurpriseBtn"></button>
 </section>
 
 <!-- 16-17. FINAL -->
 <section id="final">
   <div class="final-pre" id="finalPre"></div>
   <div class="final-portrait reveal">
-    <img src="assets/portrait.jpg" alt="her portrait">
+    <img src="portrait.jpg" alt="her portrait">
   </div>
   <div id="finalLinesEl"></div>
   <div class="final-name reveal" id="finalName"></div>
@@ -333,7 +357,7 @@ section{position:relative;min-height:100svh;display:flex;flex-direction:column;a
       <p id="popupAfterText"></p>
       <p id="popupAfterSub"></p>
     </div>
-    <button class="popup-close hidden" id="popupCloseBtn"></button>
+    <button class="popup-close" id="popupCloseBtn"></button>
   </div>
 </div>
 
