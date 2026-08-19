@@ -43,7 +43,7 @@ const STORY = {
   // ---- 5 & 6. portrait reveal + message ----
   portraitEyebrow: "...",
   portrait: [
-    { text: "Nee enna care panra sila vishayangal…", hi: false },
+    { text: "Nee enna care panra sila visiayangal…", hi: false },
     { text: "…naan veliya sollama irundhaalum nee notice pannirupe", hi: true },
     { text: "unmaiyave", hi: false },
     { text: "Adhu romba special theriyum ma 💙", hi: true }
