@@ -64,16 +64,19 @@ const STORY = {
   galleryHeading: "un photos enta avalotha iruthuachu pah ",
   gallerySub: " 🩵",
   gallery: [
-    { src: "mem7.jpg", caption: "." },
-    { src: "mem2.jpg", caption: "." },
-    { src: "mem4.jpg", caption: "." },
-    { src: "mem6.jpg", caption: "." },
-    { src: "mem5.jpg", caption: "." },
-    { src: "mem3.jpg", caption: "." },
     { src: "mem8.jpg", caption: "." },
     { src: "mem9.jpg", caption: "." },
     { src: "mem10.jpg", caption: "." },
-
+    { src: "mem2.jpg", caption: "." },
+    { src: "mem11.jpg", caption: "." },
+    { src: "mem3.jpg", caption: "." },
+    { src: "mem8.jpg", caption: "." },
+    { src: "mem9.jpg", caption: "." },
+    { src: "mem12.jpg", caption: "." },
+    { src: "mem10.jpg", caption: "." },
+    { src: "mem4.jpg", caption: "." },
+    { src: "mem5.jpg", caption: "." },
+    { src: "mem6.jpg", caption: "." },
   ],
 
   // ---- 9. friend -> best friend transition ----
