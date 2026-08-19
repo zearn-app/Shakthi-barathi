@@ -70,8 +70,6 @@ const STORY = {
     { src: "mem2.jpg", caption: "." },
     { src: "mem11.jpg", caption: "." },
     { src: "mem3.jpg", caption: "." },
-    { src: "mem8.jpg", caption: "." },
-    { src: "mem9.jpg", caption: "." },
     { src: "mem12.jpg", caption: "." },
     { src: "mem10.jpg", caption: "." },
     { src: "mem4.jpg", caption: "." },
@@ -107,7 +105,7 @@ const STORY = {
     "Unakku oru vishayam mattum sollanum.",
     "__CLOSE__Nee happy ah irukkanum. epavum💙",
     "Un smile apdiye irukkanum",
-    "Nee enna kanavae kandalum adhu sucess aaganum.",
+    "Nee enna kanavu kandalum adhu sucess aaganum.",
     "And… namma friendship ipdiye nalla irukkanum 🫶"
   ],
 
@@ -116,7 +114,7 @@ const STORY = {
     { text: "Wait…", hi: false },
     { text: "innum oru surprise irukku. 👀", hi: true },
     { text: "Un friends ellarum unakku oru wish sollirukaanga. 💙", hi: true },
-    { text: "-_-", hi: false }
+    { text: "", hi: false }
   ],
 
   // ---- friends' voice notes audio (used by the single final surprise popup) ----
@@ -149,8 +147,8 @@ const STORY = {
     "And ippo…",
     "Nee en life-la romba special. 💙"
   ],
-  finalNote: "Namma story innum continue aagite irukku…",
-  finalTiny: "__",
+  finalNote: "Namma story innum continue aagite irukkum",
+  finalTiny: "",
 
   // ---- 20. final audio popup (appears once, after reaching the end) ----
   finalPopup: {
