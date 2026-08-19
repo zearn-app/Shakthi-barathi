@@ -45,8 +45,8 @@ const STORY = {
   portrait: [
     { text: "Nee enna care panra sila vishayangal…", hi: false },
     { text: "…naan veliya sollama irundhaalum nee notice pannirupe", hi: true },
-    { text: "Honestly…", hi: false },
-    { text: "Adhu romba special. 💙", hi: true }
+    { text: "unmaiyave", hi: false },
+    { text: "Adhu romba special theriyum ma 💙", hi: true }
   ],
 
   // ---- 7. un care ----
@@ -57,7 +57,7 @@ const STORY = {
     "Random ah pesinalum kekka time kuduppa.",
     "Sila neram enna vida enna nee nalla purinjippa.",
     "Adhaan nee just oru friend illa…",
-    "Nee en best friend 💙"
+    "Nee en special friend 💙"
   ],
 
   // ---- 8. memory gallery ----
@@ -69,17 +69,20 @@ const STORY = {
     { src: "mem4.jpg", caption: "." },
     { src: "mem6.jpg", caption: "." },
     { src: "mem5.jpg", caption: "." },
-    { src: "mem3.jpg", caption: "." }
+    { src: "mem3.jpg", caption: "." },
+    { src: "mem8.jpg", caption: "." },
+    { src: "mem9.jpg", caption: "." },
+    { src: "mem10.jpg", caption: "." },
+
   ],
 
   // ---- 9. friend -> best friend transition ----
   bfLead: "ipadi start pannadhu…",
-  bfWord1: "FRIENDSHIP",
-  bfWord2: "BEST FRIENDSHIP",
+  bfWord1: "BEST FRIENDSHIP",
   bfSub: "aana ippo… nee en life-la romba special friend. 💙",
 
   // ---- 10. birthday reveal ----
-  birthdayHeading: "HAPPY BIRTHDAY DI 💙🎂",
+  birthdayHeading: "HAPPY BIRTHDAY pahh 💙🎂",
   birthday: [
     "Innaiku un birthday…",
     "So konjam over ah oru wish panna thappilla nu nenachen. 😂",
@@ -92,18 +95,17 @@ const STORY = {
   letter: [
     "Actually enna sollanum nu romba yosichen…",
     "Namma friendship epdi ivlo close aachu nu yosicha, exact ah oru reason kooda solla mudiyala.",
-    "Just pesinom…",
-    "Random ah time spend pannom…",
+    "summa pesinom…",
     "Apdiye nee en best friend aayita.",
     "Nee enna care panra vishayam enakku genuinely romba pidikkum.",
     "Sometimes naan sollaama irundhaalum, nee purinjukura moments irukku.",
     "Adhu enakku romba valuable.",
     "So innaiku un birthday-ku…",
     "Unakku oru vishayam mattum sollanum.",
-    "__CLOSE__Nee happy ah irukkanum. Always. 💙",
-    "Un smile apdiye irukkanum.",
-    "Nee enna dream pannalum adhu achieve aaganum.",
-    "And… namma friendship ipdiye nalla irukkanum. 🫶"
+    "__CLOSE__Nee happy ah irukkanum. epavum💙",
+    "Un smile apdiye irukkanum",
+    "Nee enna kanavae kandalum adhu sucess aaganum.",
+    "And… namma friendship ipdiye nalla irukkanum 🫶"
   ],
 
   // ---- 12. surprise teaser ----
