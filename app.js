@@ -509,3 +509,92 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       popupRaf = requestAnimationFrame(tick);
     }
+  }undMusicSrc) {
+    bgMusic = new Audio(STORY.backgroundMusicSrc);
+    bgMusic.loop = true;
+    bgMusic.volume = 0;
+    musicToggle.classList.add("show");
+  }
+
+  function startBackgroundMusic() {
+    if (!bgMusic) return;
+    bgMusic.play().catch(() => {});
+    fadeVolume(bgMusic, 0.35, 1200);
+  }
+
+  function fadeVolume(audioEl, target, duration) {
+    const start = audioEl.volume;
+    const steps = 20;
+    let step = 0;
+    const interval = setInterval(() => {
+      step++;
+      audioEl.volume = start + (target - start) * (step / steps);
+      if (step >= steps) clearInterval(interval);
+    }, duration / steps);
+  }
+
+  function duckBackgroundMusic() {
+    if (bgMusic && !musicMuted) fadeVolume(bgMusic, 0.05, 600);
+  }
+  function restoreBackgroundMusic() {
+    if (bgMusic && !musicMuted) fadeVolume(bgMusic, 0.35, 900);
+  }
+
+  musicToggle.addEventListener("click", () => {
+    if (!bgMusic) return;
+    musicMuted = !musicMuted;
+    musicToggle.textContent = musicMuted ? "🔇" : "🔊";
+    fadeVolume(bgMusic, musicMuted ? 0 : 0.35, 400);
+  });
+
+   /* ---------------- PARTICLE BACKGROUND ---------------- */
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  let w, h, particles;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = document.documentElement.scrollHeight;
+  }
+
+  function initParticles() {
+    const count = reduceMotion ? 0 : Math.min(80, Math.floor((w * h) / 40000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: 0.6 + Math.random() * 1.6,
+      speed: 0.08 + Math.random() * 0.22,
+      drift: -0.15 + Math.random() * 0.3,
+      alpha: 0.15 + Math.random() * 0.5,
+      hue: Math.random() > 0.5 ? "96,165,250" : "56,189,248"
+    }));
+  }
+
+  resize();
+  initParticles();
+  window.addEventListener("resize", () => { resize(); initParticles(); });
+
+  let scrollY = window.scrollY;
+  window.addEventListener("scroll", () => { scrollY = window.scrollY; }, { passive: true });
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, w, h);
+    const viewTop = scrollY - 200;
+    const viewBottom = scrollY + window.innerHeight + 200;
+    particles.forEach(p => {
+      if (p.y < viewTop || p.y > viewBottom) return;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.hue},${p.alpha})`;
+      ctx.fill();
+      p.y -= p.speed;
+      p.x += p.drift * 0.3;
+      if (p.y < viewTop) p.y = viewBottom;
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  if (!reduceMotion) animateParticles();
+  else ctx.clearRect(0, 0, w, h);
+
+  window.addEventListener("load", () => { resize(); initParticles(); });
+});
